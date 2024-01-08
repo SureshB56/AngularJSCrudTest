@@ -38,7 +38,7 @@ namespace AngularJSTest.Controllers
                 DBconnection.PostUserInfo(userInfo);
                 res = "Insert";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 res = "faild";
                 throw;
@@ -56,5 +56,96 @@ namespace AngularJSTest.Controllers
 
             return Json(listrs, JsonRequestBehavior.AllowGet);
         }
+
+        [Route("~/Home/UpdateUser")]
+        [HttpPost]
+        public JsonResult update_record(UserInfo userInfo)
+
+        {
+
+            string res = string.Empty;
+            try
+            {
+                DBconnection.UpdaetUserInfo(userInfo);
+                res = "Update";
+            }
+            catch (Exception ex)
+            {
+                res = "faild";
+                throw;
+            }
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
+
+
+        public JsonResult Get_databyid(int id)
+
+        {
+
+            DataSet ds = DBconnection.get_recordbyid(id);
+
+            List<UserInfo> listrs = new List<UserInfo>();
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+
+            {
+
+                listrs.Add(new UserInfo
+
+                {
+
+                    UserTableID = Convert.ToInt32(dr["UserTableID"]),
+
+                    FirstName = dr["FirstName"].ToString(),
+
+                    Email = dr["Email"].ToString(),
+
+                    PhoneNumber = dr["PhoneNumber"].ToString(),
+
+                    
+                });
+
+            }
+
+            return Json(listrs, JsonRequestBehavior.AllowGet);
+
+        }
+
+        // Delete record
+
+        public JsonResult delete_record(int id)
+
+        {
+
+            string res = string.Empty;
+
+            try
+
+            {
+
+             //   dblayer.deletedata(id);
+
+                res = "data deleted";
+
+            }
+
+            catch (Exception)
+
+            {
+
+                res = "failed";
+
+            }
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+
+
+        }
+
     }
 }

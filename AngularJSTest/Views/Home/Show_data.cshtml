@@ -1,199 +1,264 @@
-﻿@{
-
-    Layout = null;
-
-}
-
-
-
-<!DOCTYPE html>
-
-
-
-<html>
-
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-
-        .tableData {
-            border-left: solid 1px #D8C3C3;
-            border-top: solid 1px #D8C3C3;
-        }
-
-
-
-            .tableData tr {
-            }
-
-
-
-            .tableData td, .tableData th {
-                border-right: solid 1px #D8C3C3;
-                border-bottom: solid 1px #D8C3C3;
-                text-align: left;
-                padding: 5px;
-            }
-
-
-
-            .tableData td {
-            }
-
-
-
-            .tableData th {
-                background-color: #FAFAFA;
-                padding: 7px 5px;
-                border-bottom-color: #9C9C9C;
-            }
-
-
-
         .odd {
             background-color: #f3f3f3;
         }
 
-
-
         .even {
             background-color: #ffffff;
         }
+
+        #sidebar {
+            position: fixed;
+            width: 250px;
+            height: 100%;
+            background: #343a40;
+            color: #fff;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+           /* #sidebar.active {
+                margin-left: -250px;
+            }*/
+
+        #content {
+            width: 100%;
+            padding: 0px 15px;
+            transition: all 0.3s;
+        }
+
+           
+           
+        #sidebarCollapse {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: fixed;
+            top: 8px;
+            left: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+            #sidebarCollapse i {
+                color: #343a40;
+            }
+
+            #sidebarCollapse.active {
+                left: 240px;
+            }
+
+                #sidebarCollapse.active i {
+                    transform: rotate(180deg);
+                }
+
+        .navbar {
+            background: #343a40;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #fff;
+        }
+
+        .list-unstyled {
+            padding-left: 0;
+            list-style: none;
+            padding-top: 100px;
+            padding-left: 23px;
+        }
+
+            .list-unstyled li {
+                padding-bottom: 15px;
+            }
+
+                .list-unstyled li a {
+                    color: #fff !important;
+                }
+
+        .pl-10 {
+            padding-left: 15px;
+        }
+
+      
     </style>
 
-
-
 </head>
-
-<body ng-app="Homeapp">
-
-    <div ng-controller="HomeController">
-
-        <!--<table class="tableData">
-
-        <tr>
-
-            <th>Sr no</th>
-
-            <th>FirstName</th>
-
-            <th>LastName</th>
-
-            <th>Email</th>
-
-            <th>PhoneNumber</th>
-
-            <th>City</th>
-
-            <th>Actions</th>
-
-        </tr>
-
-        <tr ng-repeat="e in record" ng-class-even="'even'" ng-class-odd="'odd'">
-
-            <td>
-                {{e.UserTableID}}
-            </td>
-
-            <td>{{e.FirstName}}</td>
-
-            <td>{{e.LastName}}</td>
-
-            <td>{{e.Email}}</td>
-
-            <td>{{e.PhoneNumber}}</td>
-
-            <td>{{e.City}}</td>-->
-        @*<td><a href="/Home/update_data?id={{e.UserTableID}}">Update</a></td>
-
-        <td><a ng-click="deleterecord(e.UserTableID)">Delete</a></td>*@
-
-        <!--</tr>
-
-    </table>-->
+<body ng-app="Homeapp" class="bg-light">
 
 
-        <div class="panel-body col-panel-body">
-            <div>
-                <form class="form-horizontal" name="frm_DisposalSearch" role="form" id="frm_DisposalSearch" ng-submit="SearchDisposal()">
-                    <div class="col-md-4 col-form1">
-                        <label for="txtProject">Project</label>
-                        <select class="form-control" ng-init="DisposalSearchOption.ProjectID=''" ng-model="DisposalSearchOption.ProjectID" id="ddlProject">
-                            <option value="">--- Select ---</option>
-                            <option ng-repeat="project in ProjectList | orderBy: 'ProjectName'" value="{{project.ProjectID}}">{{project.ProjectName}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 col-form1">
-                        <label for="txtEventName">Disposal Site</label>
-                        <input type="text" class="form-control" id="txtSiteName" ng-model="DisposalSearchOption.DisposalName" onchange="return trim(this)" autofocus autocomplete="off" placeholder="Enter Disposal Site name" restrict-special-characters />
-                    </div>
 
-                    <div class="col-md-4 col-form1">
-                        <label for="LastVisitDate">Type</label>
-                        <select class=" form-control" id="DisposalSiteType" ng-model="DisposalSearchOption.DisposalSiteType">
-                            <option value="">--- Select ---</option>
-                            <option value="1">Temporary</option>
-                            <option value="2">Final</option>
-                        </select>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="col-btn1">
-                        <button type="submit" class="btn btn-success">Search</button>&nbsp;&nbsp;<button type="button" ng-click="Clear()" class="btn btn-danger">Clear</button>
-                    </div>
-                </form>
-                <div ng-show="ExportDisposalData.length>0" class="col-print"><a onclick="printdata()" id="printdata">Print <i class="fa fa-print"></i> </a> </div>
-                <div ng-show="ExportDisposalData.length>0" class="col-excel"><a ng-click="exportData()">Export to Excel&nbsp;<img src="/app/Content/img/excel.png" /> </a></div>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div id="sidebarCollapse" class="bg-dark text-light p-2">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+                <li>
+                    <a href="#dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#users">Users</a>
+                </li>
+                <li>
+                    <a href="#settings">Settings</a>
+                </li>
+            </ul>
+        </nav>
 
-                <div class="clear"></div><br>
-                <div class="clear"></div>
-                <div id="tablecontent" style="display:none;">
-                    <table id="tblUserListforprint" style="border:1px solid black;border-collapse:collapse;" class="table table-bordered landscape">
-                        <tr style="border:1px solid black;border-collapse:collapse;" class="table_tr landscape">
-                            <th>S.No</th>
-                            <th>Disposal site</th>
-                            <th>Address</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                        </tr>
-                        <tr class="table_tr landscape" ng-repeat="data in ExportDisposalData">
-                            <td>{{$index+1}}</td>
-                            <td>{{data.Name}}</td>
-                            <td><div style="width:280px">{{data.Address}}</div></td>
-                            <td>{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
-                            <td>{{data.Status == 0? "In-Active":"Active"}}</td>
-                        </tr>
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Top Navigation Bar -->
+            <nav class="navbar navbar-expand-lg">
+                <button type="button" id="sidebarCollapseButton" class="btn btn-dark">
+                    <i class="fas fa-bars"></i>
+                </button>
 
-                    </table>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Settings</a>
+                        </li>
+                    </ul>
                 </div>
-                <table id="tblDisposal" ng-table="DisposalList" class="table table-bordered" show-filter="false" template-pagination="custom/pager">
-                    <tr ng-repeat="data in $data">
-                        <td data-title="'Disposal site'" sortable="'Name'">{{data.Name}}</td>
-                        <td data-title="'Address'" sortable="'Address'">{{data.Address}}</td>
-                        <td data-title="'Type'" sortable="'DisposalSiteType'">{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
-                        <td ng-style="data.Status == 0 ? {'color': 'red'} : {'color': 'green'}" data-title=" 'Status' " sortable=" 'Status' ">{{data.Status == 0? "In-Active":"Active"}}</td>
-                        <td data-title="'Action'">
-                            <button class="edit_button" ng-model="disposal" ui-sref="DisposalUpdate({ Id:data.EncryptDisposalSiteID})" ng-if="CurrentPageRights.Update" ng-click="EditDisposalData()">
-                                <i class="fa fa-edit" title="Edit"></i>
-                            </button>
-                            <a ng-if="!CurrentPageRights.Update" class="custon-not-allow"><i class="fa fa-edit" title="Not authorized to edit"></i></a>
-                        </td>
-                    </tr>
-                    <tr><td colspan="6" ng-show="params.total() == 0">No Data Found</td></tr>
-                </table>
-                
+            </nav>
 
+            <!-- Your content goes here -->
+            <div class="container-fluid">
+
+                <div ng-controller="HomeController" class="col-lg-10 offset-2 mt-4">
+                    <h2>Search UserList</h2>
+                    <p></p>
+                    <div class="panel-body col-panel-body">
+                        <form class="form-horizontal" name="frm_DisposalSearch" role="form" id="frm_DisposalSearch" ng-submit="SearchDisposal()">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="txtName">Name</label>
+                                    <input type="text" class="form-control" ng-model="DisposalSearchOption.Name" id="txtName" placeholder="Enter  Name" />
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="txtEmail">Email</label>
+                                    <input type="email" class="form-control" ng-model="DisposalSearchOption.Email" id="txtEmail" placeholder="Enter  Email" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="txtmobile">Mobile No</label>
+                                    <input type="number" class="form-control" ng-model="DisposalSearchOption.MobileNo" id="txtmobile" placeholder="Enter  Mobile No" />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success">Search</button>
+                                    <button type="button" ng-click="Clear()" class="btn btn-danger">Clear</button>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+                        <div class="mt-4">
+                            <table id="tblUserListforprint" style="border:1px solid black;border-collapse:collapse;" class="table table-bordered landscape">
+                                <tr style="border:1px solid black;border-collapse:collapse;" class="table_tr landscape">
+                                    <th>S.No</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile No</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr class="table_tr landscape" ng-repeat="data in ExportDisposalData">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{data.Name}}</td>
+                                    <td><div style="width:280px">{{data.Address}}</div></td>
+                                    <td>{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
+                                    <td>{{data.Status == 0? "In-Active":"Active"}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table id="tblDisposal" ng-table="DisposalList" class="table table-bordered mt-4" show-filter="false" template-pagination="custom/pager">
+                            <tr ng-repeat="data in $data">
+                                <td data-title="'Disposal site'" sortable="'Name'">{{data.Name}}</td>
+                                <td data-title="'Address'" sortable="'Address'">{{data.Address}}</td>
+                                <td data-title="'Type'" sortable="'DisposalSiteType'">{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
+                                <td ng-style="data.Status == 0 ? {'color': 'red'} : {'color': 'green'}" data-title=" 'Status' " sortable=" 'Status' ">{{data.Status == 0? "In-Active":"Active"}}</td>
+                                <td data-title="'Action'">
+                                    <button class="btn btn-primary" ng-model="disposal" ui-sref="DisposalUpdate({ Id:data.EncryptDisposalSiteID})" ng-if="CurrentPageRights.Update" ng-click="EditDisposalData()">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger" ng-click="DeleteDisposalData(data.EncryptDisposalSiteID)" ng-if="CurrentPageRights.Delete">
+                                        Delete
+                                    </button>
+                                    <a ng-if="!CurrentPageRights.Update" class="btn btn-secondary disabled" title="Not authorized to edit">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr><td colspan="6" ng-show="params.total() == 0">No Data Found</td></tr>
+                        </table>
+
+
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 
+
+
+    <footer class="mt-4">
+        <div class="container-fluid ">
+            <div class="col-lg-10 offset-2 mt-4"><p class="pl-10">&copy;Your Company Name. All rights reserved.</p></div>
+
+
+        </div>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapseButton').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="~/Script/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
     <script src="~/Script/AngularController/HomeAngular.js"></script>
+
 
 </body>
 
