@@ -137,6 +137,11 @@ app.controller("HomeController", function ($scope, $http) {
                 .then(function (response) {
                     // Handle success
                     $scope.register = response.data[0];
+
+                    $scope.record = response.data;
+
+                   
+                    $location.path("/Home/Show_data"); 
                 })
                 .catch(function (error) {
                     // Handle error
@@ -144,9 +149,16 @@ app.controller("HomeController", function ($scope, $http) {
                     alert('Failed to delete record');
                 });
         } else {
-            $location.path("/Home").search({ id: userId });
+            $location.path("/Home/Show_data").search({ id: userId });
         }
     };
+
+
+    $scope.AddDisposalsite = function () {
+       
+        $state.go('Index');
+    }
+
 });
 
  
