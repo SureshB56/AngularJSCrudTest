@@ -100,7 +100,7 @@
     </style>
 
 </head>
-<body ng-app="Homeapp" class="bg-light">
+<body class="bg-light">
 
 
 
@@ -155,7 +155,7 @@
             <!-- Your content goes here -->
             <div class="container-fluid">
 
-                <div ng-controller="HomeController" class="col-lg-10 offset-2 mt-4">
+                <div  ng-app="Homeapp"  ng-controller="HomeController" class="col-lg-10 offset-2 mt-4">
                     <h2>Create User Details</h2>
 
                     <div class="panel-body col-panel-body">
@@ -254,23 +254,11 @@
 
         </div>
     </footer>
+
+
+    <script src="~/Script/angular.min.js"></script>
+
     <script src="~/Script/AngularController/HomeAngular.js"></script>
-    <script src="~/Script/angular.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#sidebarCollapseButton').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $(this).toggleClass('active');
-            });
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="~/Script/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-
-
 
 
 </body>

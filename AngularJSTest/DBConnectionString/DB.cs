@@ -60,13 +60,32 @@ namespace AngularJSTest.DBConnectionString
                 UserParam.Add("@Country", UserInfo.Country);
                 UserParam.Add("@PostalCode", UserInfo.PostalCode);
                 UserParam.Add("@IsSucced", dbType: DbType.Int64, direction: ParameterDirection.Output);
-                var query = con.Execute("UpdaetUserInfo", UserParam, commandType: CommandType.StoredProcedure);
+                var query = con.Execute("UspUserInsertDetails", UserParam, commandType: CommandType.StoredProcedure);
                 var output = UserParam.Get<Int64>("@IsSucced");
                 return Convert.ToInt32(output);
             }
 
         }
-        //Display all record
+
+        public int DeleteUserInfo(int id)
+        {
+
+            using (IDbConnection con = SqlConn)
+            {
+                con.Open();
+                var UserParam = new DynamicParameters();
+              
+                UserParam.Add("@UserTableID", id);
+             
+               
+                UserParam.Add("@IsSucced", dbType: DbType.Int64, direction: ParameterDirection.Output);
+                var query = con.Execute("UspUserDelete", UserParam, commandType: CommandType.StoredProcedure);
+                var output = UserParam.Get<Int64>("@IsSucced");
+                return Convert.ToInt32(output);
+            }
+
+        }
+
 
         public List<UserInfo> GetUserRoleList(string Name, string Email, string PhoneNumber)
         {
@@ -90,7 +109,7 @@ namespace AngularJSTest.DBConnectionString
 
         {
 
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["TestContext"].ConnectionString);
             SqlCommand com = new SqlCommand("GetUserId", con);
 
             com.CommandType = CommandType.StoredProcedure;
@@ -106,6 +125,8 @@ namespace AngularJSTest.DBConnectionString
             return ds;
 
         }
+
+
 
 
 

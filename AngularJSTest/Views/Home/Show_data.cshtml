@@ -102,7 +102,7 @@
     </style>
 
 </head>
-<body ng-app="Homeapp" class="bg-light">
+<body class="bg-light">
 
 
 
@@ -157,7 +157,7 @@
             <!-- Your content goes here -->
             <div class="container-fluid">
 
-                <div ng-controller="HomeController" class="col-lg-10 offset-2 mt-4">
+                <div ng-app="Homeapp" ng-controller="HomeController" class="col-lg-10 offset-2 mt-4">
                     <h2>Search UserList</h2>
                     <p></p>
                     <div class="panel-body col-panel-body">
@@ -189,7 +189,7 @@
 
 
                         <div class="mt-4">
-                            <table id="tblUserListforprint" style="border:1px solid black;border-collapse:collapse;" class="table table-bordered landscape">
+                            <table id="tableData" style="border:1px solid black;border-collapse:collapse;" class="table table-bordered landscape">
                                 <tr style="border:1px solid black;border-collapse:collapse;" class="table_tr landscape">
                                     <th>S.No</th>
                                     <th>Name</th>
@@ -197,35 +197,17 @@
                                     <th>Mobile No</th>
                                     <th>Action</th>
                                 </tr>
-                                <tr class="table_tr landscape" ng-repeat="data in ExportDisposalData">
-                                    <td>{{$index+1}}</td>
-                                    <td>{{data.Name}}</td>
-                                    <td><div style="width:280px">{{data.Address}}</div></td>
-                                    <td>{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
-                                    <td>{{data.Status == 0? "In-Active":"Active"}}</td>
+                                <tr class="table_tr landscape" ng-repeat="e in record">
+                                    <td>{{e.UserTableID}}</td>
+                                    <td>{{e.FirstName}}</td>
+                                    <td><div style="width:280px">{{e.Email}}</div></td>
+                                    <td><div style="width:280px">{{e.PhoneNumber }}</div></td>
+                                    <td><a href="/Home/update_data?id={{e.UserTableID}}">Update</a>
+                                    <a href="#" ng-click="confirmDelete(e.UserTableID)">Delete</a>
                                 </tr>
                             </table>
                         </div>
-                        <table id="tblDisposal" ng-table="DisposalList" class="table table-bordered mt-4" show-filter="false" template-pagination="custom/pager">
-                            <tr ng-repeat="data in $data">
-                                <td data-title="'Disposal site'" sortable="'Name'">{{data.Name}}</td>
-                                <td data-title="'Address'" sortable="'Address'">{{data.Address}}</td>
-                                <td data-title="'Type'" sortable="'DisposalSiteType'">{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
-                                <td ng-style="data.Status == 0 ? {'color': 'red'} : {'color': 'green'}" data-title=" 'Status' " sortable=" 'Status' ">{{data.Status == 0? "In-Active":"Active"}}</td>
-                                <td data-title="'Action'">
-                                    <button class="btn btn-primary" ng-model="disposal" ui-sref="DisposalUpdate({ Id:data.EncryptDisposalSiteID})" ng-if="CurrentPageRights.Update" ng-click="EditDisposalData()">
-                                        Edit
-                                    </button>
-                                    <button class="btn btn-danger" ng-click="DeleteDisposalData(data.EncryptDisposalSiteID)" ng-if="CurrentPageRights.Delete">
-                                        Delete
-                                    </button>
-                                    <a ng-if="!CurrentPageRights.Update" class="btn btn-secondary disabled" title="Not authorized to edit">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr><td colspan="6" ng-show="params.total() == 0">No Data Found</td></tr>
-                        </table>
+
 
 
                     </div>
@@ -243,19 +225,7 @@
 
         </div>
     </footer>
-    <script>
-        $(document).ready(function () {
-            $('#sidebarCollapseButton').on('click', function () {
-                $('#sidebar, #content').toggleClass('active');
-                $(this).toggleClass('active');
-            });
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="~/Script/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
     <script src="~/Script/AngularController/HomeAngular.js"></script>
 
