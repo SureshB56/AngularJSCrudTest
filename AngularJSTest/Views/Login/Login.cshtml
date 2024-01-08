@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html ng-app="Homeapp">
+
+<head>
+    <title>Login Page</title>
+    <script src="~/Script/angular.min.js"></script>
+
+    <script src="~/Script/AngularController/HomeAngular.js"></script>
+</head>
+<body ng-controller="loginController">
+
+    <h2>Login Page</h2>
+
+    <form ng-submit="login()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" ng-model="user.username" required>
+
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" ng-model="user.password" required>
+
+        <br>
+
+        <!-- Include anti-forgery token -->
+        <input type="hidden" name="__RequestVerificationToken" ng-model="user.__RequestVerificationToken" value="{{antiForgeryToken}}" />
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div ng-show="loginError" style="color: red;">
+        {{ loginError }}
+    </div>
+
+</body>
+</html>

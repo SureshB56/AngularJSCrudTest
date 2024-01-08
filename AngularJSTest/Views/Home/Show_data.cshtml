@@ -1,0 +1,200 @@
+﻿@{
+
+    Layout = null;
+
+}
+
+
+
+<!DOCTYPE html>
+
+
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Index</title>
+
+    <style>
+
+        .tableData {
+            border-left: solid 1px #D8C3C3;
+            border-top: solid 1px #D8C3C3;
+        }
+
+
+
+            .tableData tr {
+            }
+
+
+
+            .tableData td, .tableData th {
+                border-right: solid 1px #D8C3C3;
+                border-bottom: solid 1px #D8C3C3;
+                text-align: left;
+                padding: 5px;
+            }
+
+
+
+            .tableData td {
+            }
+
+
+
+            .tableData th {
+                background-color: #FAFAFA;
+                padding: 7px 5px;
+                border-bottom-color: #9C9C9C;
+            }
+
+
+
+        .odd {
+            background-color: #f3f3f3;
+        }
+
+
+
+        .even {
+            background-color: #ffffff;
+        }
+    </style>
+
+
+
+</head>
+
+<body ng-app="Homeapp">
+
+    <div ng-controller="HomeController">
+
+        <!--<table class="tableData">
+
+        <tr>
+
+            <th>Sr no</th>
+
+            <th>FirstName</th>
+
+            <th>LastName</th>
+
+            <th>Email</th>
+
+            <th>PhoneNumber</th>
+
+            <th>City</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+        <tr ng-repeat="e in record" ng-class-even="'even'" ng-class-odd="'odd'">
+
+            <td>
+                {{e.UserTableID}}
+            </td>
+
+            <td>{{e.FirstName}}</td>
+
+            <td>{{e.LastName}}</td>
+
+            <td>{{e.Email}}</td>
+
+            <td>{{e.PhoneNumber}}</td>
+
+            <td>{{e.City}}</td>-->
+        @*<td><a href="/Home/update_data?id={{e.UserTableID}}">Update</a></td>
+
+        <td><a ng-click="deleterecord(e.UserTableID)">Delete</a></td>*@
+
+        <!--</tr>
+
+    </table>-->
+
+
+        <div class="panel-body col-panel-body">
+            <div>
+                <form class="form-horizontal" name="frm_DisposalSearch" role="form" id="frm_DisposalSearch" ng-submit="SearchDisposal()">
+                    <div class="col-md-4 col-form1">
+                        <label for="txtProject">Project</label>
+                        <select class="form-control" ng-init="DisposalSearchOption.ProjectID=''" ng-model="DisposalSearchOption.ProjectID" id="ddlProject">
+                            <option value="">--- Select ---</option>
+                            <option ng-repeat="project in ProjectList | orderBy: 'ProjectName'" value="{{project.ProjectID}}">{{project.ProjectName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-form1">
+                        <label for="txtEventName">Disposal Site</label>
+                        <input type="text" class="form-control" id="txtSiteName" ng-model="DisposalSearchOption.DisposalName" onchange="return trim(this)" autofocus autocomplete="off" placeholder="Enter Disposal Site name" restrict-special-characters />
+                    </div>
+
+                    <div class="col-md-4 col-form1">
+                        <label for="LastVisitDate">Type</label>
+                        <select class=" form-control" id="DisposalSiteType" ng-model="DisposalSearchOption.DisposalSiteType">
+                            <option value="">--- Select ---</option>
+                            <option value="1">Temporary</option>
+                            <option value="2">Final</option>
+                        </select>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-btn1">
+                        <button type="submit" class="btn btn-success">Search</button>&nbsp;&nbsp;<button type="button" ng-click="Clear()" class="btn btn-danger">Clear</button>
+                    </div>
+                </form>
+                <div ng-show="ExportDisposalData.length>0" class="col-print"><a onclick="printdata()" id="printdata">Print <i class="fa fa-print"></i> </a> </div>
+                <div ng-show="ExportDisposalData.length>0" class="col-excel"><a ng-click="exportData()">Export to Excel&nbsp;<img src="/app/Content/img/excel.png" /> </a></div>
+
+                <div class="clear"></div><br>
+                <div class="clear"></div>
+                <div id="tablecontent" style="display:none;">
+                    <table id="tblUserListforprint" style="border:1px solid black;border-collapse:collapse;" class="table table-bordered landscape">
+                        <tr style="border:1px solid black;border-collapse:collapse;" class="table_tr landscape">
+                            <th>S.No</th>
+                            <th>Disposal site</th>
+                            <th>Address</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr class="table_tr landscape" ng-repeat="data in ExportDisposalData">
+                            <td>{{$index+1}}</td>
+                            <td>{{data.Name}}</td>
+                            <td><div style="width:280px">{{data.Address}}</div></td>
+                            <td>{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
+                            <td>{{data.Status == 0? "In-Active":"Active"}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <table id="tblDisposal" ng-table="DisposalList" class="table table-bordered" show-filter="false" template-pagination="custom/pager">
+                    <tr ng-repeat="data in $data">
+                        <td data-title="'Disposal site'" sortable="'Name'">{{data.Name}}</td>
+                        <td data-title="'Address'" sortable="'Address'">{{data.Address}}</td>
+                        <td data-title="'Type'" sortable="'DisposalSiteType'">{{data.DisposalSiteType == 1 ? "Temporary":"Final"}}</td>
+                        <td ng-style="data.Status == 0 ? {'color': 'red'} : {'color': 'green'}" data-title=" 'Status' " sortable=" 'Status' ">{{data.Status == 0? "In-Active":"Active"}}</td>
+                        <td data-title="'Action'">
+                            <button class="edit_button" ng-model="disposal" ui-sref="DisposalUpdate({ Id:data.EncryptDisposalSiteID})" ng-if="CurrentPageRights.Update" ng-click="EditDisposalData()">
+                                <i class="fa fa-edit" title="Edit"></i>
+                            </button>
+                            <a ng-if="!CurrentPageRights.Update" class="custon-not-allow"><i class="fa fa-edit" title="Not authorized to edit"></i></a>
+                        </td>
+                    </tr>
+                    <tr><td colspan="6" ng-show="params.total() == 0">No Data Found</td></tr>
+                </table>
+                
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/Script/angular.min.js"></script>
+
+    <script src="~/Script/AngularController/HomeAngular.js"></script>
+
+</body>
+
+</html>
